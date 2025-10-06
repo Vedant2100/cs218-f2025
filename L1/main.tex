@@ -1,0 +1,82 @@
+\documentclass{article}[12pt]
+\usepackage{fullpage}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage[ruled,lined,linesnumbered]{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{url}
+\usepackage{graphicx}
+
+\ifx\solutiontemplate\undefined
+\newcommand{\solkeyword}[1]{}
+\newcommand{\policy}[1]{#1}
+\else
+\newcommand{\solkeyword}[1]{#1}
+\newcommand{\policy}[1]{}
+\fi
+
+\newcommand\encircle[1]{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {\footnotesize #1}}} }
+
+
+\newenvironment{solution}[0]{\vspace{.1in} \textbf{Solution.} \,}{}
+
+\newcommand{\deadline}{07:00 AM, Mon 10/07, 2025}
+
+\newcommand{\assigntitle}[1]{{
+  \noindent \large \bf
+  CS218, Fall 2025,
+  Assignment \##1 \hfill Due: {\deadline}\\
+  Name: Vedant Deepak Borkute
+  \hspace{2.5in}
+  Student ID: 862552981
+  \\
+  [-.05in]
+  \mbox{}\hrulefill \mbox{}\\}}
+
+\begin{document}
+
+\assigntitle{1}{}
+\date{}
+
+
+\section{Short Answer Question 1 (20pts)}
+\begin{enumerate}
+
+\item \[
+\sqrt{n} = \omega\!\left(\log ^{2} n\right)
+\]
+
+Because polynomial functions such as $\sqrt{n}$ grow asymptotically faster than any polylogarithmic function like $(\log n)^2$. 
+
+\item \[
+3^n = o\!\left(n!\right)
+\]
+If we take logarithm to base $n$ on both sides of the equation, we get $n \log 3$ on the left, and $\log(n) + \log(n-1) + \cdots + \log(1)$ on the right. The right-hand expression is of order $n \log n$ while the left hand expression is order $n$, therefore as $n \to \infty$, the right hand side is greater. 
+
+\item \[
+3^n = \omega(2^n)\]
+
+Because as $n \to \infty$, $\lim_{n \to \infty}\frac{3^n}{2^n}$  approaches $\infty$.
+
+\item \[
+\log{\sqrt{n}} = \Theta(\log^{2} n)
+\]
+
+Because $\lim_{n \to \infty} \frac{\log{\sqrt{n}}}{\log{n^2}}$ simplifies to $\lim_{n \to \infty} \frac{(1/2)\log{n}}{2\log{n}}$ which reduces to a constant 1/4.
+\end{enumerate}
+
+\section{Short Answer Question 2(20pts)}
+\section{Short Answer Question 3(20pts)}
+
+
+
+\begin{thebibliography}{99}
+\bibitem{ref1} This definition is from...
+\end{thebibliography}
+\end{document}
