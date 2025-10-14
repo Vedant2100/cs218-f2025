@@ -1,279 +1,394 @@
-%-------------------------
-% Resume in Latex
-% Author : Jake Gutierrez
-% Based off of: https://github.com/sb2nov/resume
-% License : MIT
-%------------------------
-
-\documentclass[letterpaper,11pt]{article}
-
-\usepackage{latexsym}
-\usepackage[empty]{fullpage}
-\usepackage{titlesec}
-\usepackage{marvosym}
-\usepackage[usenames,dvipsnames]{color}
-\usepackage{verbatim}
-\usepackage{enumitem}
-\usepackage[hidelinks]{hyperref}
-\usepackage{fancyhdr}
-\usepackage[english]{babel}
-\usepackage{tabularx}
-\usepackage{fontawesome5}
+\documentclass{article}[12pt]
+\usepackage{fullpage}
 \usepackage{multicol}
-\usepackage[normalem]{ulem} % put this in the preamble
-\setlength{\multicolsep}{-3.0pt}
-\setlength{\columnsep}{-1pt}
-\input{glyphtounicode}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage[ruled,lined,linesnumbered]{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\ifx\solutiontemplate\undefined
+\newcommand{\solkeyword}[1]{}
+\newcommand{\policy}[1]{#1}
+\else
+\newcommand{\solkeyword}[1]{#1}
+\newcommand{\policy}[1]{}
+\fi
+
+\newcommand\encircle[1]{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {\footnotesize #1}}} }
 
 
-%----------FONT OPTIONS----------
-% sans-serif
-% \usepackage[sfdefault]{FiraSans}
-% \usepackage[sfdefault]{roboto}
-% \usepackage[sfdefault]{noto-sans}
-% \usepackage[default]{sourcesanspro}
+\newenvironment{solution}[0]{\vspace{.1in} \textbf{Solution.} \,}{}
 
-% serif
-% \usepackage{CormorantGaramond}
-% \usepackage{charter}
+\newcommand{\deadline}{07:00 AM, Mon 10/14, 2025}
 
+\newcommand{\assigntitle}[1]{{
+  \noindent \large \bf
+  CS218, Fall 2025,
+  Assignment \##1 \hfill Due: {\deadline}\\
+  Name: Vedant Deepak Borkute
+  \hspace{2.5in}
+  Student ID: 862552981
+  \\
+  [-.05in]
+  \mbox{}\hrulefill \mbox{}\\}}
 
-\pagestyle{fancy}
-\fancyhf{} % clear all header and footer fields
-\fancyfoot{}
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0pt}
-
-% Adjust margins
-\addtolength{\oddsidemargin}{-0.6in}
-\addtolength{\evensidemargin}{-0.5in}
-\addtolength{\textwidth}{1.19in}
-\addtolength{\topmargin}{-.5in}
-\addtolength{\textheight}{1.4in}
-
-\urlstyle{same}
-
-\raggedbottom
-\raggedright
-\setlength{\tabcolsep}{0in}
-
-% Sections formatting
-\titleformat{\section}{
-  \vspace{-4pt}\scshape\raggedright\large\bfseries
-}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
-
-% Ensure that generate pdf is machine readable/ATS parsable
-\pdfgentounicode=1
-
-%-------------------------
-% Custom commands
-\newcommand{\resumeItem}[1]{
-  \item\small{
-    {#1 \vspace{-2pt}}
-  }
-}
-
-\newcommand{\classesList}[4]{
-    \item\small{
-        {#1 #2 #3 #4 \vspace{-2pt}}
-  }
-}
-
-\newcommand{\resumeSubheading}[4]{
-  \vspace{-2pt}\item
-    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
-      \textbf{#1} & \textbf{\small #2} \\
-      \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-7pt}
-}
-
-\newcommand{\education}[6]{
-  \vspace{-2pt}\item
-    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
-      \textbf{#1} & \textbf{\small #2} \\
-      \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-7pt}
-}
-
-\newcommand{\resumeSubSubheading}[2]{
-    \item
-    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
-      \textit{\small#1} & \textit{\small #2} \\
-    \end{tabular*}\vspace{-7pt}
-}
-
-\newcommand{\resumeProjectHeading}[2]{
-    \item
-    \begin{tabular*}{1.001\textwidth}{l@{\extracolsep{\fill}}r}
-      \small#1 & \textbf{\small #2}\\
-    \end{tabular*}\vspace{-7pt}
-}
-
-\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
-
-\renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$}
-\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
-
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.0in, label={}]}
-\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
-
-%-------------------------------------------
-%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
-%----------HEADING----------
-\begin{center}
-    {\Huge \textbf{Vedant Borkute}} \\[6pt]
-    \small
-    \raisebox{-0.1\height}\faPhone\ +1 951-823-2856 \quad
-    \href{mailto:2711vedant@gmail.com}{\raisebox{-0.2\height}\faEnvelope\ \uline{2711vedant@gmail.com}} \quad
-    \href{mailto:vbork001@ucr.edu}{\raisebox{-0.2\height}\faGlobe\ \uline{vbork001@ucr.edu}} \quad
-    \href{https://github.com/Vedant2100}{\raisebox{-0.2\height}\faGithub\ \uline{Vedant2100}} \quad
-    \href{https://www.linkedin.com/in/vedant-b-1290a51a6/}{\raisebox{-0.2\height}\faLinkedin\ \uline{vedant-borkute}}
-\end{center}
+\assigntitle{1}{}
+\date{}
 
-%-----------EDUCATION-----------
-\section{Education}
-\noindent\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r}
-  \textbf{University of California, Riverside} & \textbf{Sep 2025 -- Mar 2027} \\
-  \textit{Master of Science, Computer Science} & Riverside, California \\
-\end{tabular*}
 
-\vspace{6pt}
+\section{A Complex Complexity Problem (24pts)}
+\begin{enumerate}
 
-\noindent\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r}
-  \textbf{Indian Institute of Technology, Bombay} & \textbf{Aug 2019 -- Apr 2023} \\
-  \textit{Bachelor of Technology, Computer Science} & Mumbai, Maharashtra, India \\
-\end{tabular*}
-\vspace{-5pt}
-\vspace{-10pt}
-%-----------EXPERIENCE-----------
-\section{Experience}
-\textbf{Data Scientist} - \textit{Finarb.ai}\hfill \textbf{Aug 2023 - Aug 2025}\\
+\item \[
+\sqrt{n} = \omega\!\left(\log ^{2} n\right)
+\]
 
-\vspace{-5pt}
-\resumeItemListStart
-\resumeItem{Implemented and benchmarked statistical forecasting models (SARIMA, VAR, Facebook Prophet) and deep learning approaches (LSTMs, Temporal Convolutional Networks) for different nodes in a pharmaceuticals' supply chain, achieving a \textbf{90\% reduction in Mean Absolute Percentage Error} over already present approaches (3MA, 6MA, SES).}
-\vspace{-3pt}
-\resumeItem{Performed comprehensive time-series diagnostics using \textbf{Autocorrelation plots, extended autocorrelation matrices}, stationarity tests (mean, variance), and residual analysis; engineered \textbf{lagged and augmented data using exogenous features} (e.g., mortality rates, inventory, veteran population) to enhance model predictive power.}
-\vspace{-3pt}
-\resumeItem{Developed an \textbf{end-to-end forecasting pipeline} encompassing data preprocessing, feature engineering, model selection with custom metrics, and docker-based containerization for reproducible deployment.}
-    \vspace{-3pt}
-    \resumeItem{Built AI Agents: 
-    \vspace{-3pt}
-      \begin{itemize}[leftmargin=*,label=--,noitemsep,nolistsep]
-        \item \textbf{Feature Engineering:} Generation of domain-relevant features via retrieval-augmented generation on internet-based and other sources, improving model performance by 5\%..
-        \item \textbf{Cross-Database Queries:} Enabling natural language queries spanning multiple databases/datasources with a SQL and Python code generation agentic workflow.
-        \item \textbf{Business Dashboards:} Automated creation of dashboards with key performance indicators and intuitive visualizations.
-      \end{itemize}
-    }
-    \vspace{-3pt}
-\resumeItem{Performed data preparation and analysis for various business usecases (inventory-order and order-pricing correlations, supply assessment, purchasing patterns) using optimized \textbf{SQL scripts}, and developed comprehensive \textbf{Power BI dashboards} for share gain attribution, portfolio performance, competitor dynamics, BCG-style prioritization, and annual revenue/volume summaries for leadership insights.}
-  \resumeItemListEnd
-\vspace{-5pt}
-\vspace{-5pt}
-%-----------PROJECTS-----------
-\section{Projects}
-\vspace{-8pt}
-\resumeSubHeadingListStart
-  \resumeProjectHeading
-      {\textbf{Online Competing and Development Environment} \textit{-- Advisor: Prof. Amitabha Sanyal}}{Autumn 2020}
-      \resumeItemListStart
-        \resumeItem{Built and deployed a browser-based virtual Linux environment for cross-platform code compilation with Django backend and Bootstrap frontend.}
-        % \resumeItem{Developed a \textbf{Django backend} supporting user accounts and storage of up to 10 files with directory structure; designed the frontend using \textbf{Bootstrap}.}
-        % \resumeItem{Added support for multiple programming languages (C++, Java, Python) with standard library support.}
-        \resumeItem{Added support for multiple languages (C++, Java, Python) and implemented timed online competitions with automated grading.}
-      \resumeItemListEnd
-\vspace{-15pt}
-  \resumeProjectHeading
-      {\textbf{Restaurant Management System} \textit{-- Advisor: Prof. S. Sudarshan}}{Spring 2023}
-      \resumeItemListStart
-        \resumeItem{Developed a full-stack React–Node.js web app with REST APIs to manage reservations, menu, orders, and billing.}
-        % \resumeItem{Developed a \textbf{Django backend} supporting user accounts and storage of up to 10 files with directory structure; designed the frontend using \textbf{Bootstrap}.}
-        % \resumeItem{Added support for multiple programming languages (C++, Java, Python) with standard library support.}
-        \resumeItem{Created role-based dashboards and analytics tools for real-time restaurant operations and business insights.}
-      \resumeItemListEnd
-\vspace{-15pt}
-  \resumeProjectHeading
-      {\textbf{Movie Recommendation System} \textit{-- Advisor: Prof. Abir De}}{Autumn 2022}
-      \resumeItemListStart
-        \resumeItem{Built a hybrid recommender using collaborative and content-based filtering with deep autoencoders (PyTorch).}
-        % \resumeItem{Developed a \textbf{Django backend} supporting user accounts and storage of up to 10 files with directory structure; designed the frontend using \textbf{Bootstrap}.}
-        % \resumeItem{Added support for multiple programming languages (C++, Java, Python) with standard library support.}
-        \resumeItem{Engineered user–movie features to improve RMSE through multi-layer neural network tuning.}
-      \resumeItemListEnd
-\vspace{-15pt}
-  % \resumeProjectHeading
-  %     {\textbf{Custom Linux Shell and xv6 Extensions} \textit{-- Advisor: Prof. Amitabha Sanyal}}{Autumn 2020}
-  %     \resumeItemListStart
-  %       \resumeItem{Developed a C++ shell supporting serial, parallel, and background process execution with custom signal handling.}
-  %       % \resumeItem{Developed a \textbf{Django backend} supporting user accounts and storage of up to 10 files with directory structure; designed the frontend using \textbf{Bootstrap}.}
-  %       % \resumeItem{Added support for multiple programming languages (C++, Java, Python) with standard library support.}
-  %       \resumeItem{Modified xv6 kernel to implement custom versions of fork, wait, and exec system calls.}
-  %     \resumeItemListEnd
-\resumeSubHeadingListEnd
-\vspace{-2pt}
-% \vspace{-10pt}
-%-----------PROGRAMMING SKILLS-----------
-\section{Technical Skills}
-\begin{itemize}
-    [leftmargin=0.15in, label={}]
-    \small{\item{{\textbf{Languages:} C++, R, JavaScript, Python, Bash, Prolog, AWK, MIPS, Neo4J CQL, SQL, Sed, Lex, Yacc, \LaTeX}}}
-    \vspace{-5pt}\small{\item{{\textbf{Technologies:} Pandas, R, SQL, Power BI, NumPy, SciPy, MATLAB, PostgreSQL, React, Django, PyTorch, TensorFlow, MongoDB}}}
-    \vspace{-5pt}\small{\item{\textbf{Software:} Microsoft Excel, RStudio, DataGrip, Cursor, Docker, Git, PowerPoint, Word, Slack, Azure DevOps, Jira, Confluence}}
-\resumeItemListEnd
- % \vspace{-12pt}
-\vspace{-5pt}
-\vspace{-10pt}
-%-----------ACCOMPLISHMENTS-----------
-\section*{Accomplishments}
-\begin{itemize}[leftmargin=0.15in, label={}]
-\small {\item Ranked 1 in OBC-PwD in IIT-JEE Advanced 2019, India's most competitive exam, and among the top 0.8\% nationwide in JEE Main among 1.3 million candidates.}
-    % \item Received Late Kalpana Chawla Best Student award’ by Shivaji Science Junior College for
-% throughout Higher Secondary Education. \hfill \textit{2017-19}
-%     \item Secured International Rank 160 in International Mathematics Olympiad conducted by the Science Olympiad Foundation \hfill \textit{2015}
-%     \item Secured 10.0 CGPA and 98.20\% in AISSE examination conducted by the Central Board of Secondary Education \hfill \textit{2017}
-\end{itemize}
+Because polynomial functions such as $\sqrt{n}$ grow asymptotically faster than any polylogarithmic function like $(\log n)^2$. 
+
+\item \[
+3^n = o\!\left(n!\right)
+\]
+If we take logarithm to base $n$ on both sides of the equation, we get $n \log 3$ on the left, and $\log(n) + \log(n-1) + \cdots + \log(1)$ on the right. The right-hand expression is of order $n \log n$ while the left hand expression is order $n$, therefore as $n \to \infty$, the right hand side is greater. 
+
+\item \[
+3^n = \omega(2^n)\]
+
+Because as $n \to \infty$, $\lim_{n \to \infty}\frac{3^n}{2^n}$  approaches $\infty$.
+
+\item \[
+\log{\sqrt{n}} = \Theta(\log^{2} n)
+\]
+
+Because $\lim_{n \to \infty} \frac{\log{\sqrt{n}}}{\log{n^2}}$ simplifies to $\lim_{n \to \infty} \frac{(1/2)\log{n}}{2\log{n}}$ which reduces to a constant 1/4.
+\end{enumerate}
+
+\section{Solve Recurrences (18pts)}
+
+\begin{enumerate}
+\item The recurrence is not in a form required by the master theorem. In order to apply the master theorem, we need to get it in an appropriate form. 
+
+Consider \( k = \log n \), this would make the recurrence in terms of \(k\) look like:  
+\[ T(2^k) = T(2^{k/2}) + 1 \]
+
+To arrive at a form required by the master theorem, we also need to consider \( T(2^k) = F(k) \).  
+\[ F(k) = F(k/2) + 1 \]
+
+Now, \( f(n) = 1 \) which is a constant, and \( n^{\log_b a} = k^{\log_1 2} \) simplifying to 1, which is constant too. Therefore, using the master theorem we can say  
+\[ F(k) = \Theta(k^{\log_1 2} \log k) \]  
+which simplifies to \( F(k) = \Theta(\log k) \).
+
+Reverse-substituting \(k\), we get  
+\[ T(2^k) = \Theta(\log k) \]  
+Again, reverse-substituting for \(n\), we get  
+\[ T(n) = \Theta(\log(\log n)) \]
+
+\item
+\[
+T(n) = T(n-1) + n^2
+\]
+If we keep on expanding the right term,  
+\[
+T(n) = T(n-2) + (n-1)^2 + n^2
+\]
+If we continue till the end,  
+we get  
+\[
+T(n) = T(n-n) + 1^2 + 2^2 + \dots + n^2
+\]
+with the \( n^2 \) term repeated \( n \) times.  
+Assuming \( T(0) = k \), a constant term,  
+we get  
+\[
+T(n) = k + \frac{n(n+1)(2n+1)}{6}
+\],
+\[
+T(n) = k + (2n^3 + 3n^2 +n)/6
+\]
+From this, we can conclude \( T(n) = \Theta(n^3) \).
+
+\item 
+\[
+T(n) = T(n/2) + n \log n
+\]
+As the relation is in an appropriate format for the master theorem,  
+and since \( n^{\log_2 1} \) is a constant (1) while \( f(n) = n \log n \), we can say that its polynomially less than f(n). We want to check two conditions for applying master theorem in this case.
+
+1. \( f(n) = \Omega(n^{\log_2 (1+\epsilon)}) \) for \( \epsilon > 0 \) with \(f(n) = n\log n \), since \( n^{\log_2 (1+\epsilon)} \) will evaluate to some constant and f(n) will be asymptotically lower bounded by that.
+
+2. Considering a = 1, b = 2 from master theorem's form, 
+\[
+f(n/2) = \frac{n}{2} \log (n/2) = \frac{n}{2} (\log n - \log 2) = \frac{1}{2} n \log n - \frac{n}{2} \log 2 
+\]  
+therefore
+\[f(n/2) \le 0.5 (n \log n) \]
+Therefore, by master theorem 
+\[
+T(n) = \Theta(n \log n)
+\]
+
+\end{enumerate}
+\section{Special Sorting (42pts) }
+
+% Distinct elements
+% Cost = no of swaps 
+\begin{enumerate}
+\item
+We can use a binary decision tree method to analyse the number of comparisons needed to get to a sorted array from all possible permutations of that sorted array, as discussed in the class. At each step, we have a condition comparing an element of the array with others to decide the branches for each set of permutations. To get to the sorted array which is a leaf from the root of this tree which contains all solutions, we would need minimum as manuy comparisons as the depth of the tree which is $log(n!)$, which simplifies to $\Theta(nlogn)$.
+
+\item 
+An existing algorithm that can sort an array of size $n$ using $O(n\log n)$ swaps (not necessarily adjacent) would be heapsort.
+
+Consider that we have an unsorted array in the start. We initially represent it as a complete binary tree, filling it level by level sequentially. An assumption made while doing this conversion is that internal nodes for the tree are found up until $n//2$ (in python) and the rest are leaf nodes.
+
+Now, we need a function to heapify this tree such that it satisfies max heap property  - parent node has to be $\geq$ child node. 
+
+For this, we will start from the $n//2$ element in the array as current root, (this will be an internal node in the binary tree), and compare whether its left child(found at $2i+1$) or right child(found at $2i + 2$) are larger than it. If yes, we point the `largest` to that node, and swap the parent and that node.
+
+Then, we recursively call heapify on the new child node's subtree, ensuring that the max heap property is satisfied in the whole binary tree overall.
+
+We need to do this for all the internal nodes from $n//2$ up until the first element, so that all those subtrees starting from those nodes are valid max heaps. Therefore the time complexity for building this heap would be $(n/2)\log n$.
+
+Now, in this max heap, we end up with the largest element as the root, and at max this would have required at most $\log n$ comparisons (since in the worst case, the largest element would have started as a leaf node).
+
+Next, we will swap this largest element with the current last element of the array, our aim here being to end with a sorted (ascending) array. Now, we run the same Heapify function on a reduced heap (not considering the last element), starting with the first element, since the later part of the array remained unaffected with our swap (only the first element changed). We keep on getting the largest element at the root, moving it to the end and running heapify on the reduced heap.
+
+In the end, we would run this $n-1$ times (since the rest of them would be sorted). Therefore the time complexity involved is $O((n-1)\log n)$.
+
+Therefore the total complexity is $O(n\log n)$ and we would end up with the sorted array in the end.
+
+HeapSort(A):\\
+\hspace*{1em} n $=$ len(A)\\
+\hspace*{1em} for i $=$ (n/2)  - 1 to $0$:\\
+\hspace*{2em} Heapify(A, n, i)\\
+\hspace*{1em} for i $=$ n - 1 to $1$:\\
+\hspace*{2em} swap A[0], A[i]\\
+\hspace*{2em} Heapify(A, i, 0)
+
+Heapify(A, n, i):\\
+\hspace*{1em} largest = i\\
+\hspace*{1em} left = $2i + 1$\\
+\hspace*{1em} right = $2i + 2$\\
+\hspace*{1em} if left $<$ n and A[left] $>$ A[largest]:\\
+\hspace*{2em} largest = left\\
+\hspace*{1em} if right $<$ n and A[right] $>$ A[largest]:\\
+\hspace*{2em} largest = right\\
+\hspace*{1em} if largest $\ne$ i:\\
+\hspace*{2em} swap A[i], A[largest]\\
+\hspace*{2em} Heapify(A, n, largest)
+\item 
+Consider the following algorithm, which is a naive solution to sorting an array (bubble sort)
+
+For each element in the array, if it is greater than the next element, we keep swapping it with the next element until no more swaps are possible (i.e., the swap condition, which is a comparison, fails). In the worst case, when the array is sorted in descending order, $n-1$ adjacent swaps are needed for the first element to move it to its correct position, $n-2$ for the second element, and so on.
+
+Therefore, in the worst case we would need 
+\[
+(n-1) + (n-2) + \dots + 1 
+\] adjacent swaps, i.e. $\frac{n(n-1)}{2}$, which leads to an $O(n^2)$ time complexity in terms of adjacent swaps.
+
+for i = 1 to len[A]:\\
+\hspace*{1em} for j = \text{len}[A] to i + 1:\\
+\hspace*{2em} if A[j] $<$ A[j-1] then\\
+\hspace*{3em} swap A[j], A[j-1]
+
+\item 
+Consider an example array $[6, 4, 3, 1]$.
+An {inversion} is a pair of elements in the array where the smaller element appears at a larger index. 
+We can consider No of inversions as the degree of unsortedness of an array. 
+In the above array, there are currently six inversions: $(6,4), (6,3), (6,1), (4,3), (4,1), (3,1)$.
+
+Therefore, in an array of $N$ elements, in the worst case i.e when the array is sorted in descending order, 
+we would need to deal with
+\[
+(N - 1) + (N - 2) + (N - 3) + \dots + 1 = \frac{N(N-1)}{2}
+\]
+inversions. In the end, we want to achieve an array with zero inversions i.e. a sorted array.
+
+And with each adjacent swap, we can reduce the number of inversions by exactly one. 
+Therefore, to clear all $\frac{N(N-1)}{2}$ inversions, we would need at  least that many adjacent swaps. Hence, the worst-case time complexity of adjacent swaps needed to sort any array of $N$ elements is $O(N^2)$. 
+
+\item 
+We need to find the exact number of adjacent swaps needed to sort any given array. In order to know this, we need to find the number of inversions in the array.
+
+An algorithm with a runtime of $O(nlogn)$, which can help us count these inversions is merge sort. As anyway, merge sort maintains sorted subarrays of an array in its memory in the merging step, we could use that infromation to get the total number of inversions in the original array. 
+
+def merge\_sort(arr):\\
+\hspace*{2em}if len(arr) $\leq$ 1:\\
+\hspace*{3em}return arr\\
+\hspace*{2em}mid = len(arr) // 2\\
+\hspace*{2em}left = merge\_sort(arr[:mid])\\
+\hspace*{2em}right = merge\_sort(arr[mid:])\\
+\hspace*{2em}return merge(left, right)\\
+
+\\
+def merge(left, right):\\
+\hspace*{2em}result = []\\
+\hspace*{2em}i = j = 0\\
+\hspace*{2em}while i $<$ len(left) and j $<$ len(right):\\
+\hspace*{3em}if left[i] $\leq$ right[j]:\\
+\hspace*{4em}result.append(left[i])\\
+\hspace*{4em}i += 1\\
+\hspace*{3em}else:\\
+\hspace*{4em}result.append(right[j])\\
+\hspace*{4em}j += 1\\
+\hspace*{2em}result.extend(left[i:])\\
+\hspace*{2em}result.extend(right[j:])\\
+\hspace*{2em}return result
+
+We can keep track of inversions in the merging step. In the merging step,  if a right subarray element was chosen before the current left subarray elements, that meant it was smaller than all those and therefore we had an inversion of size len(left uncompared subarray) for this element in the original subarray. Therefore we can add a step in the merge function that updated the count of inversions in this case. We return the inversion count alongwith the original resultant subarray from the merge function.
+
+In the merge sort algorithm itself, we make correponding changes and add up inversion counts from the left and right subarrays and the merging step.
+
+The final algorithm will look like:\\
+def merge\_sort(arr):\\
+\hspace*{2em}if len(arr) $\leq$ 1:\\
+\hspace*{3em}return arr, 0\\
+\hspace*{2em}mid = len(arr) // 2\\
+\hspace*{2em}left, inv\_left = merge\_sort(arr[:mid])\\
+\hspace*{2em}right, inv\_right = merge\_sort(arr[mid:])\\
+\hspace*{2em}merged, inv\_split = merge(left, right)\\
+\hspace*{2em}total = inv\_left + inv\_right + inv\_split\\
+\hspace*{2em}return merged, total\\
+
+\\
+def merge(left, right):\\
+\hspace*{2em}result = []\\
+\hspace*{2em}i = j = inv\_count = 0\\
+\hspace*{2em}while i $<$ len(left) and j $<$ len(right):\\
+\hspace*{3em}if left[i] $\leq$ right[j]:\\
+\hspace*{4em}result.append(left[i])\\
+\hspace*{4em}i += 1\\
+\hspace*{3em}else:\\
+\hspace*{4em}result.append(right[j])\\
+\hspace*{4em}inv\_count += len(left) - i\\
+\hspace*{4em}j += 1\\
+\hspace*{2em}result.extend(left[i:])\\
+\hspace*{2em}result.extend(right[j:])\\
+\hspace*{2em}return result, inv\_count
+
+This algorithm would allow us to get the no of inversions to take care of in $O(nlogn)$ time, while sorting using adjacent swaps in any array.
+
+\end{enumerate}
+\section{Being Unique }
+
+The Unique in Range property means that every subarray of a given array needs to have at least one unique element.  
+(UIR = Unique in Range)
+
+A naive approach would be to maintain a dictionary of counts for every possible subarray using two for loops and check whether all of them satisfy the condition. This would have a time complexity of $O(n^2)$.
+
+As a start, we can check if the whole array has atleast one unique element or not. If it doesn't we can say that the array itself (which is a valid subarray) does not satisfy the UIR property.
+
+Next, we want to get indices of unique elements in the array. Because, any subarrays that conatin these elements would already be satisfying UIR.
+Therefore we want to check subarrays between these elements , whether they satisfy the requirement. 
+
+For each unique element index from the start, we will consider subarrays from the start to that index (if any known unique element falls in between , then we start from its next element up until the next unique element). After the last unique element, we also want to check the remaining partition after that element for this property. \\
+
+def unique\_in\_range(arr):\\
+\hspace*{2em}if len(arr) $<$ 1:\\
+\hspace*{3em}return True\\
+\\
+\hspace*{2em}freq = {}\\
+\hspace*{2em}for x in arr:\\
+\hspace*{3em}freq[x] = freq.get(x, 0) + 1\\
+\\
+\hspace*{2em}unique\_elem\_indices = [i for i, x in enumerate(arr) if freq[x] == 1]\\
+\\
+\hspace*{2em}if not unique\_elem\_indices:\\
+\hspace*{3em}return False\\
+\\
+\hspace*{2em}prev = 0\\
+\hspace*{2em}for idx in unique\_elem\_indices:\\
+\hspace*{3em}if not unique\_in\_range(arr[prev:idx]):\\
+\hspace*{4em}return False\\
+\hspace*{3em}prev = idx + 1\\
+\\
+\hspace*{2em}if not unique\_in\_range(arr[prev:]):\\
+\hspace*{3em}return False\\
+\\
+\hspace*{2em}return True \\
+
+In each call of this function, we do O(n) work to count element frequencies and identify unique elements. As we keep finding unique elements, the size of the array passed to the recursion decreases. Each unique element is only processed once initially. Each non unique element is only processed in the partitions that contain it, and multiple unique elements within a partition cause the partitions to shrink considerably. Therefore, each element appears in only a few partitions on average, and the total work for all recursive calls is \textbf{O(n log n)} amortized, since each element is involved in roughly log n partitions on average. But worst case, there may be only one unique element per partition and that too at the end, so our partitions would not decrease in size by much. In this case we would have worst case time complexity of $O(n^2)$.
+
+
+\\
+
+% [Earlier Approach]\\
+
+% In order to design an algorithm that runs in $O(n \log n)$ or better, we can consider a divide and conquer approach. Typically, we need to reduce the problem size by significant amount at each step to achieve asked time complexity of $O(n \log n)$. I will try dividing the problem into two smaller subproblems:
+
+% \[
+% \text{UIR}(A, i, j) = \text{UIR}(A, i, (i+j)/2) + \text{UIR}(A, (i+j)/2, j)
+% \]
+
+% \noindent
+% Base case: When the subproblems are of length 1, they satisfy the UIR property, as they're single elements.\\
+
+% By doing this, we divide the problem into two halves, checking whether subarrays in each half satisfy the condition, and take the \texttt{and} of the results.  
+
+% \bigskip
+% so far skeleton pseudocode looks like this:
+
+% def unique\_in\_range(arr, i, j):\\
+% \hspace*{3em}if i == j:\\
+% \hspace*{4em}return True\\
+% \hspace*{3em}mid = (i + j) // 2\\
+% \hspace*{3em}a = unique\_in\_range(arr, i, mid)\\
+% \hspace*{3em}b = unique\_in\_range(arr, mid+1, j)\\
+% \hspace*{3em}return a and b\\
+
+% However, this approach misses subarrays that start in the left half and end in the right half, since these are not handled by either subproblem.  
+% Therefore, we need an extra step that checks all such subarrays that span from the left part to the right part for the UIR property.
+
+% For subarrays spanning from left to right starting at an index $i$, we compute a frequency count for each element on the left part of that array. Then, using an expanding window, we also get frequencies in all possible subarrays on the right and check whether the combined frequency dictionary from both parts contains at least one unique element.\\
+
+% def check(arr, left, mid, right):\\
+% \hspace*{3em}for i from mid to left:\\
+% \hspace*{4em}freq = \{\}\\
+% \hspace*{4em}for j from i to mid:\\
+% \hspace*{5em}freq[arr[j]] += 1\\
+% \hspace*{4em}for k from mid+1 to right:\\
+% \hspace*{5em}freq[arr[k]] += 1\\
+% \hspace*{5em}if not any(freq[val] == 1 for val in freq):\\
+% \hspace*{6em}return False\\
+% \hspace*{3em}return True
+
+% Considering that the for loops do iterate over disjoint parts of the array, but the right part loop is still being computed for all n/2 iterations of i.
+% The time complexity for the check function would be $O(n^2)$. 
+% The overall time complexity: 
+% \[
+% T(n) = 2T(n/2) + O(n^2)
+% \]
+
+% Using the Master Theorem with $a = 2$, $b = 2$, and $f(n) = O(n^2)$, we have:
+
+% \[
+% n^{\log_b a} = n^{\log_2 2} = n
+% \]
+
+% Since $f(n) = O(n^2) = \Omega(n^{1+\epsilon})$ for $\epsilon = 1 > 0$, by Case 3 of the Master Theorem, the overall time complexity is:
+
+% \[
+% T(n) = O(n^2)
+% \]
+
+% This solution isn't able do to O(nlogn).
+
+\begin{thebibliography}{99}
+\bibitem{ref1} The Master Theorem used from the slides.
+\bibitem{ref2} https://www.geeksforgeeks.org/dsa/heap-sort/
+\bibitem{ref3} https://www.tutorialspoint.com/data\_structures\_algorithms/bubble\_sort\_algorithm.htm
+\bibitem{ref4} Slides for merge sort.
+\bibitem{ref4} https://stackoverflow.com/questions/78091917/google-interview-question-check-if-all-subarrays-of-an-array-have-at-least-one
+\bibitem{ref5} https://www.geeksforgeeks.org/dsa/number-swaps-sort-adjacent-swapping-allowed
+
+\end{thebibliography}
 \end{document}
-
-
-
-
-% \subsection*{Custom Linux Shell and Feature Extension of xv6 (Autumn 2021)} \hfill\\
-% \textbf{Guide:} Prof. Mythili Vutukuru IIT Bombay \\
-% • Built a shell in C++ capable of serial, parallel background execution of single or multiple Unix commands \\
-% • Created custom signal handler to enable controlled termination of foreground processes or the shell itself \\
-% • Examined xv6 source code and implemented a variant of fork system call and simple version of wait, exec system calls.
-
-% \subsection*{Image Segmentation (Autumn 2020)} \hfill\\
-% \textbf{Guide:} Prof. Amitabha Sanyal IIT Bombay \\
-% • Used K-means++ algorithm and Python SciPy Library to smoothen sharp contrast images. \\
-% • Utilized NumPy, Pandas, SciPy libraries of Python to store pixels of images in matrix form. \\
-% • Used K-means algorithm to find centroid and replaced pixels by its centroid for image segmentation.
-
-% \subsection*{COVID-19 Pandemic Predictions (Autumn 2020)} \hfill\\
-% \textbf{Guide:} Prof. Amitabha Sanyal IIT Bombay \\
-% • Applied Levitt’s H(t) on Indian COVID-19 death’s data read from a CSV file Using Pandas \\
-% • Plotted a scatter plot of data using Matplotlib to visualize the behavior of Levitt’s H(t) Metric \\
-% • Predicted the end of a pandemic using the Linear fit plot of data points by implementing Linear regression from Scipy module 
-% • The linear extraplotation-based prediction is fairly effective, at least when values of H(t) are small.
-
-% \subsection*{Morphism (Autumn 2020)} \hfill\\
-% \textbf{Guide:} Prof. Ajit A Diwan IIT Bombay \\
-% • Learned about Fibonacci sequence , thue-morse sequence and properties of their morphism. \\
-% • Taking properties of morphism implemented functions to find the longest common sub-sequences and substring with help of Dynamic Programming and Knuth-Morris-Pratt algorithm.
-
-% \subsection*{Movie Recommendation System (Autumn 2022)} \hfill\\
-% \textbf{Guide:} Prof. Abir De IIT Bombay \\
-% • Analyzed a set of users with their previous ratings for a set of movies and then predict the rating they will assign to a movie they have not previously rated. Learned about Content-based and Collaborative filtering.
-
-    
-% \vspace{-15pt}
-% \section{Publications}
-%  \begin{itemize}[leftmargin=0.15in, label={}]
-%     \small{\item{P. Bhattacharya, K. Hiware, S. Rajgaria, \textbf{N. Pochhi}, K. Ghosh, S. Ghosh. \href{https://link.springer.com/chapter/10.1007/978-3-030-15712-8_27}{A Comparative Study of Summarization Algorithms applied to Legal Case Judgments}. In \emph{European Conference on Information Retrieval, 2019}
-%     }}
-%  \end{itemize}
-%  \vspace{-12pt}
