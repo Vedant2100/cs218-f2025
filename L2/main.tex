@@ -1,0 +1,218 @@
+\documentclass{article}[12pt]
+\usepackage{fullpage}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage[ruled,lined,linesnumbered]{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{url}
+\usepackage{graphicx}
+
+\ifx\solutiontemplate\undefined
+\newcommand{\solkeyword}[1]{}
+\newcommand{\policy}[1]{#1}
+\else
+\newcommand{\solkeyword}[1]{#1}
+\newcommand{\policy}[1]{}
+\fi
+
+\newcommand\encircle[1]{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {\footnotesize #1}}} }
+
+
+\newenvironment{solution}[0]{\vspace{.1in} \textbf{Solution.} \,}{}
+
+\newcommand{\deadline}{07:00 AM, Mon 10/28, 2025}
+
+\newcommand{\assigntitle}[1]{{
+  \noindent \large \bf
+  CS218, Fall 2025,
+  Assignment \##2 \hfill Due: {\deadline}\\
+  Name: Vedant Borkute
+  \hspace{2.5in}
+  Student ID: 862552981
+  \\
+  [-.05in]
+  \mbox{}\hrulefill \mbox{}\\}}
+
+\begin{document}
+
+\assigntitle{1}{}
+\date{}
+
+
+\section{Voting for the Programming Contest (32pts)}
+\subsection*{1.1}
+For $n$ departments, we need at least $k = \left\lfloor \frac{n}{2} \right\rfloor + 1$ departments to vote for \textit{yes} to get a proposal approved.
+
+\subsection*{1.2}
+To let a department $i$ of $a_i$ people vote for \textit{yes}, we need 
+\[
+f(a_i) = \left\lfloor \frac{a_i}{2} \right\rfloor + 1
+\]
+supporters.
+
+\subsection*{1.3}
+\begin{enumerate}
+    \item[(a)] $a_1$
+    \item[(b)] $(S - a_{x_i}) \cup {a_1}$ where i != 1 as in we can pick $a_1$ instead of any department currently in $S$.
+    \item[(c)] The department $a_1$ has not been picked yet. It can be picked in place of the current first choice department, for getting total $k$ departments.
+    \item[(d)] $\displaystyle \sum_{i=1}^{k} f(a_{x_i})$
+\item[(e)] $\displaystyle f(a_{1}) + \sum_{\substack{i=1 \\ x_i \neq 1}}^{k-1} f(a_{x_i})$
+    \item[(f)] $f(a_1) - f(a_{x_k})$ where $a_{x_k}$ is the assignment chosen in S inplace of $a_1$.
+    \item[(g)] $f(a_1) < f(a_{x_k})$ for $k \neq 1$ as $\left(\frac{a_1}{2}\right) + 1 < \left(\frac{a_{x_k}}{2}\right) + 1$ for $k \neq 1$.
+\end{enumerate}
+
+\subsection*{1.4}
+\begin{enumerate}
+    \item[(a)] among $T - \{a_1\}$ set of departments ( choosing k - 1 departments).
+    \item[(b)] $f(a_i) + (T_2)$
+    \item[(c)] $T_1$ is optimal for $T - \{a_1\}$ and has fewer departments than $T_2$ i.e $T_1$ \le $T_2$ 
+\end{enumerate}
+
+
+\section{Deadlines, again! (42pts)}
+\subsection*{2.1}
+Consider an example where $a_1$ is due on $d_1$ with 5 points. While $a_2$ (20 pts) and $a_3$ (10 pts) are due on $d_2$. Our current strategy would choose the $d_1$ first as it has the earliest deadline, and on $d_2$ it can choose any, but optimally let's consider it chooses $a_2$. Total points obtained are 25 points. However, this is not optimal as max we could have gotten 30 points if we did one of $a_2$, $a_3$ on $d_1$ and the other on $d_2$. Therefore, this strategy is not optimal.
+
+\subsection*{2.2}
+Consider an example where $a_1$ and $a_2$ are due on $d_1$ and $d_2$ with 6 and 5 points respectively. Also, $a_3$ is due on $d_3$ with 10 pts. With the current strategy of highest points first, we would choose $a_3$ on the first day. We would be left with choosing $a_2$ on $d_2$. Our total would be 10 + 5 = 15 points. However, this is not optimal as we could have done all on different days and gotten all 21 points.
+
+\subsection*{2.3}
+Consider that the optimal solution $S$ does not contain the assignment $a_k$ due on day $d_k$ with the highest number of points.  
+
+\begin{enumerate}
+    \item[(a)] Either this solution has another assignment to be done on a day $\le$ d_k (deadline of a_k). In this case, we could easily replace this assignment by $a_k$ since we would increase our total number of points, and this means the earlier solution wasn't optimal.
+    
+    \item[(b)] Or on day d $\le$ $d_k$ no assignment is being done in this solution (i.e. it is unassigned). In this case too, we can build an even more optimal solution by doing $a_k$ on that dayt, increasing our total points. Therefore, in this case too the earlier solution wasn't optimal.
+\end{enumerate}
+
+This is a contradiction; therefore, our assumption that the optimal solution does not contain the assignment $a_k$ is wrong. Thus, an optimal solution must contain the assignment with the highest number of points.
+
+\subsection*{2.4}
+% for multiple days
+% Consider a greedy strategy that takes assigments in 1. if empty day then call on next day's assignments ...highest else if not choose one with highest today;s.
+% Now we need to prove 
+% 1. There is an optimal solution with this choice. wrong....next day asg can be beough in to today if its higher too not necessaryil rmpty.
+% but cant draw in any larger next day if it has only one that day.
+Consider the approach that for every assignment we try to place it on its latest available day (i.e., the last unassigned day $\le$ its due date). Because that ensures we do it and leaves space for others. But we do want to ensure we collect the highest points at the same time, so we do this in descending order of points for all assignments, in order to not do low-value assignments over higher-value ones on those days. In the end, we will end up with high-value assignments being assigned to the latest days possible, so that they do not interfere with earlier high-value assignments, but also are chosen over low-value assignments on their days. A greedy choice with this algorithm is scheduling the highest valued assignment (suppose $a_k$) on its latest available day $d\le d_k$. \\
+\textbf{def} {highest-point-latest-avbl}($a_1, a_2, \dots, a_n$):\\
+\hspace*{2em} input: assignment $a_i$: $(p_i, d_i)$ where $p_i$ = points, $d_i$ = deadline\\
+\hspace*{2em} days = [\,None, None, ... None\,] of length n\\
+\hspace*{2em} points = 0 \\
+\hspace*{2em} sort assignments in non-increasing order of $p_i$\\
+\hspace*{2em} for each $a_i$ in sorted order:\\
+\hspace*{3em} for $d$ from $d_i$ to $1$:\\
+\hspace*{4em} if days[$d$] is empty:\\
+\hspace*{5em} days[$d$] = $a_i$\\
+\hspace*{5em} points += $p_i$\\
+\hspace*{5em} break\\
+\hspace*{2em} return days, points
+
+\begin{enumerate}
+\item Greedy choice : To show that this greedy choice is part of an optimal solution,consider an optimal solution that does not have this choice as a part. \\ Two cases, \\
+(a) either on some day $d \le d_k$, there was no assignment scheduled, in which case we can insert $a_k$ and thus perform better. Meaning the original assumed optimal solution wasn't really optimal.\\
+(b) an assignment is scheduled in some day $d \le d_k$ which has a smaller point value than $a_k$. But we know that $a_k$ is the highest valued assignment overall. We could replace the chosen lower-valued assignment with $a_k$ and perform better. Again this means the original solution wasn't optimal.\\
+Therefore, by contradiction, we can say that this choice is part of an optimal solution.
+
+\item Optimal substructure:
+Currently we have $T_n = a_k + T_{n-1}$ where $T_n$ represents the n assignments to be chosen to get the max no of points (an optimal solution). We have to prove that $T_{n-1}$ is also an optimal solution for n-1 assignments.
+To the contrary, we assume that $T_n$, an optimal overall solution can be achieved by $a_k$ and a suboptimal solution $S_{n-1}$. i.e. $T_n = a_k + S_{n-1}$.
+However, that means we can find an optimal solution $T_{n-1}$ that can take place of $S_{n-1}$ and give us better returns. That leads to say that the assumed overall optimal solution wasn't really optimal.
+Therefore, by contradiction, the remaining part of the solution after the greedy choice of $a_k$ also maintains the optimal substructure.
+\end{enumerate}
+
+\subsection*{2.5} 
+Sorting the input array of assignments by points in a non-increasing order we get,
+A = [15, 12, 10, 8, 7, 5, 4, 1]. 
+Starting with D, we schedule it on the latest available day $\le 5$ (day 5), now
+days = [None, None, None, None, D, None, None, None], total = 15. \\
+Then F on day 3,
+days = [None, None, F, None, D, None, None, None], total = 27 \\
+A on day 8,
+days = [None, None, F, None, D, None, None, A, None], total = 37 \\
+B on day 2,
+days = [None, B, F, None, D, None, None, A, None], total = 45 \\
+C on day 1 (since day 2 is occupied),
+days = [C, B, F, None, D, None, None, A], total = 52\\
+H on day 4 (since day 5 is occupied),
+days = [C, B, F, H, D, None, None, A], total = 57 \\
+G is skipped (no free day $\le 4$). \\
+E on day 7,
+days = [C, B, F, H, D, None, E, A], total = 58 \\
+With this, total we get \textbf{58 points}.
+\subsection*{2.6}
+The greedy choice in my algorithm is to assign $a_k$ to day d $\le$ $d_k$. 
+% \\ 1. Assign high valued assignments to days first \\ 2. Do them as late as possible so as to not affect previous ones. \\
+Consider that there exists an optimal solution that does not include this greedy choice. \\
+Two cases, \\
+(a) There exists a unassigned day $d \le d_k$ in that solution. Then we can insert $a_k$ into that day and strictly increase the total value. Hence, the original solution wasn’t actually optimal.\\
+(b) All days $\le d_k$ are filled, but one of them contains an assignment with a smaller value than $a_k$, since $a_k$ is the highest valued asisgnment.If we replace that lower-valued assignment with $a_k$, the total value increases, again improving  original solution.
+Hence we conclude that the greedy choice is always safe to be included in an optimal solution.
+
+\subsection*{2.7}
+Optimal substructure is if an optimal solution to the overall problem is made up of it optimal solutions to its subproblems.
+The proof for optimal substructure is already done in 2.4 (2).
+
+\section{Huffman Code, again!(26pts)}
+\subsection*{3.1} If we have already combined $a_1$ and $a_2$ into $A_1$, 
+the algorithm now has to choose the smallest pair among 
+\[
+A_1, \; a_3, \; a_4, \; a_5, \dots, a_n
+\] 
+to form the next synthetic character. 
+If $A_1$ is not part of that pair, the algorithm will combine 
+two leaf characters, namely $a_3$ and $a_4$. 
+Therefore, $A_1$ must be larger than both $a_3$ and $a_4$ to not be chosen in the pair.
+Therefore the condition is 
+\[
+A_1 > a_4 \quad \text{i.e.,} \quad a_1 + a_2 > a_4.
+\] 
+\subsection*{3.2} Let $s_1, s_2, \dots, s_{n-1}$ be the synthetic frequencies created in order by the algorithm. 
+We want to prove that
+\[
+s_1 \le s_2 \le \cdots \le s_{n-1}.
+\]
+Assume that $s_k$ is created by merging the two smallest available items $u$ and $v$ with $u \le v$. 
+Thus,
+\[
+s_k = u + v.
+\]
+Just after this merge, every remaining available item (including the synthetic node we just created) has frequency at least $v$, since $u$ and $v$ were the two smallest at that step.
+At the next step, the algorithm again selects the two smallest available items, say $x \le y$. 
+Since all available items are at least $v$, we have $x, y \ge v$. Therefore, \\
+% \[
+$s_{k+1} = x + y \\
+s_{k+1} \ge v + v \\ 
+s_{k+1} \ge u + v   $(since $v \ge u$) \\
+$s_{k+1} \ge s_k$ \\
+% \] 
+Therefore the frequencies of synthetic characters created by the algorithm must be in non-decreasing order. 
+\subsection*{3.3}
+Consider the following algorithm in which we go over two queues, one which is the initially sorted input array $Q_1$ and one for storing the synthetic nodes $Q_2$. $Q_1$ is of length $n$ and $Q_2$ can have maximum length $n/2$ ( a synthetic node 
+The algorithm goes through the fronts of $Q_1$ and $Q_2$, keeping track of the smallest frequency node from them one at a time, until only one node remains. We fill $Q_2$ initially using two nodes from $Q_1$. We continue this process until both $Q_1$ and $Q_2$ are empty except for one final node — the root of the Huffman tree. \\
+
+def {Huffman-Tree}($a_1, a_2, \dots, a_n$):\\
+\hspace*{2em} $Q_1 = [a_1, a_2, \dots, a_n]$\\
+\hspace*{2em} $Q_2 = []$ \\
+\hspace*{2em}while len($Q_1$) $\ge$ 1 or len($Q_2$) $\ge$ 1: \\
+\hspace*{3em} $a_1$ = min($Q_1[0], Q_2[0]$) \\ 
+\hspace*{3em} Remove $a_1$ from $Q_1/Q_2$. \\
+\hspace*{3em} $a_2$ = min($Q_1[0], Q_2[0]$) \\
+\hspace*{3em} Remove $a_2$ from $Q_1/Q_2$. \\
+\hspace*{3em} $A_1 = a_1 + a_2$\\
+\hspace*{3em} $Q_2$.append($A_1$)\\
+\\
+As the algorithm always merges the two smallest available nodes at each step, therefore, we should end up with the smallest cost for encoding as in Huffman coding using binary heap. 
+Since every merging operation is reducing the size of the problem by one at max, that means there are at max n-1 merges and the comparison operation  takes constant time (as the min elements are on the front of the queues), the time complexity is $O(n)$.
+
+\begin{thebibliography}{99}
+\bibitem{ref1} https://cs.stackexchange.com/questions/145784/how-to-make-a-huffman-tree
+\bibitem{ref2} 
+https://www.geeksforgeeks.org/dsa/job-sequencing-problem/
+\end{thebibliography}
+\end{document}
